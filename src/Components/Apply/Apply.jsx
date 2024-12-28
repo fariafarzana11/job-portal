@@ -32,13 +32,20 @@ const Apply = () => {
         deleteDataFromLocalStorage(id)
     }
 
+    // const handleSort = (e) => {
+    //     const filterData = localData.filter(data => data.location === "Dhaka")
+    //     if (e.target.value === "Dhaka") {
+    //         setLocalData(filterData)
+    //     }
+    //     console.log(e.target.value)
+    // }
     const handleSort = (e) => {
-        const filterData = localData.filter(data => data.location === "Dhaka")
-        if (e.target.value === "Dhaka") {
-            setLocalData(filterData)
+        const selectedLocation = e.target.value;
+        if (selectedLocation) {
+            const sortedData = localData.filter(item => item.location === selectedLocation);
+            setFilteredData(sortedData);
         }
-        console.log(e.target.value)
-    }
+    };
 
     return (
         <div className="max-w-6xl mx-auto">
