@@ -1,13 +1,15 @@
+
 import { useLoaderData } from 'react-router-dom';
-import { deleteDataFromLocalStorage, getDataFromLocalStorage } from '../../LocalStorage/LocalStorage'
+import { deleteDataFromLocalStorage, getDataFromLocalStorage } from '../../LocalStorage/LocalStorage';
 import { useEffect, useState } from 'react';
 import AppliedJobs from './AppliedJobs';
 import { ToastContainer, toast } from "react-toastify";
 
 const Apply = () => {
-    const values = useLoaderData()
-    const [localData, setLocalData] = useState([])
-    console.log(localData)
+    const values = useLoaderData();
+    const [localData, setLocalData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]); 
+    console.log(localData);
 
     useEffect(() => {
         const data = getDataFromLocalStorage();
@@ -19,40 +21,38 @@ const Apply = () => {
             }
         }
         setLocalData(emptyArray);
-    }, []);
-
+        setFilteredData(emptyArray); 
+    }, [values]);
 
     const handleDelete = (id) => {
-        const data = localData.filter(local => local._id !== id)
+        const data = localData.filter(local => local._id !== id);
         if (data) {
-            toast("deleted successfully")
-            setLocalData(data)
+            toast("Deleted successfully");
+            setLocalData(data);
+            setFilteredData(data); 
         }
 
-        deleteDataFromLocalStorage(id)
-    }
+        deleteDataFromLocalStorage(id);
+    };
 
-    // const handleSort = (e) => {
-    //     const filterData = localData.filter(data => data.location === "Dhaka")
-    //     if (e.target.value === "Dhaka") {
-    //         setLocalData(filterData)
-    //     }
-    //     console.log(e.target.value)
-    // }
     const handleSort = (e) => {
         const selectedLocation = e.target.value;
         if (selectedLocation) {
             const sortedData = localData.filter(item => item.location === selectedLocation);
-            setFilteredData(sortedData);
+            setFilteredData(sortedData); 
         }
     };
 
     return (
         <div className="max-w-6xl mx-auto">
-            <h2 className="mt-20 text-center font-bold text-4xl border-b-indigo-500 shadow-lg text-white py-3 rounded bg-gradient-to-r from-indigo-500">Applied Jobs</h2>
-            <div className='mt-10'>
-                <select className='select select-primary w-full max-w-xs' onChange={handleSort}>
-                    <option disabled selected>Select any location</option>
+            <h2 className="mt-20 text-center font-bold text-4xl border-b-indigo-500 shadow-lg text-white py-3 rounded bg-gradient-to-r from-indigo-500">
+                Applied Jobs
+            </h2>
+            <div className="mt-10">
+                <select className="select select-primary w-full max-w-xs" onChange={handleSort}>
+                    <option disabled selected>
+                        Select any location
+                    </option>
                     <option>Dhaka</option>
                     <option>Rajsahi</option>
                     <option>Gazipur</option>
@@ -60,13 +60,14 @@ const Apply = () => {
                 </select>
             </div>
             <div>
-                {
-                    localData.map(local => <AppliedJobs key={local._id} local={local} handleDelete={handleDelete}></AppliedJobs>)
-                }
+                {filteredData.map(local => (
+                    <AppliedJobs key={local._id} local={local} handleDelete={handleDelete}></AppliedJobs>
+                ))}
             </div>
-            <ToastContainer></ToastContainer>
-
+            <ToastContainer />
         </div>
-    )
-}
+    );
+};
+
 export default Apply;
+
