@@ -2,7 +2,7 @@ import { deleteDataFromLocalStorage } from "../../LocalStorage/LocalStorage"
 
 
 const AppliedJobs = ({ local,handleDelete }) => {
-    const { _id,image, job_title, jobSummary } = local
+    const { _id,image, job_title, jobSummary,location } = local
 
     return (
         <div>
@@ -16,6 +16,9 @@ const AppliedJobs = ({ local,handleDelete }) => {
                             <h1 className="text-5xl font-bold">{job_title}</h1>
                             <p className="py-6">
                                {jobSummary}
+                            </p>
+                            <p className="py-6">
+                               {location}
                             </p>
                             <div className="text-end">
                                 <button className="btn btn-primary px-10" onClick={()=>handleDelete(_id)}>Delete</button>
